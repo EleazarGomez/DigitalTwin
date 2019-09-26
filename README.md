@@ -1,7 +1,7 @@
 # DigitalTwin
-Currently this repository contains the python code for a web socket that retrieves the parking information from the bbox "-90:-180,90:180". Will be updated to retrieve all assets.
+Currently this repository contains the python code for a web socket that retrieves traffic, parking, pedestrian, and environmental events from the bbox "-90:-180,90:180".
 
-To run the program correctly, run the commands from the first two comments in the import section.
+To run the program correctly, run the commands from the two comments in the import section.
 
 IF YOU DO NOT HAVE PIP:
 - navigate to the "Dependencies" folder on a command prompt
