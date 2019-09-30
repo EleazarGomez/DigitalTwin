@@ -38,7 +38,7 @@ def get_auth_token():
 def on_message(ws, message):
     jsonMessage = json.loads(message)
     evt = jsonMessage["eventType"]
-    print(evt, end = " ")
+    print(" ", evt, end = " ")
 
     # Construct query strings
     if (evt == "TFEVT"):
@@ -101,7 +101,7 @@ def on_message(ws, message):
                                            jsonMessage["properties"]["orgPixelCoordinates"],
                                            jsonMessage["properties"]["objectUid"],
                                            jsonMessage["properties"]["imageAssetUid"],
-                                           jsonMessage["properties"]["geoCoordinates"])
+                                           jsonMessage["properties"]["geoCoordinates"]) # occasionally complains about this line
     elif (evt == "PEDEVT"):
         queryTemplate = """INSERT INTO pedevt(timestamp,
                                               assetUid,
@@ -280,7 +280,7 @@ if __name__ == '__main__':
     parking_ws.on_open = parking_on_open
 
     pedestrian_ws = websocket.WebSocketApp(cityiq,
-                                           header = headers(parking_zone),
+                                           header = headers(pedestrian_zone),
                                            on_message = on_message,
                                            on_error = on_error,
                                            on_close = on_close)
@@ -294,12 +294,12 @@ if __name__ == '__main__':
     environmental_ws.on_open = environmental_on_open
 
     # Creating Threads
-    thread1 = threading.Thread(target = traffic_ws.run_forever, args=())
-    thread2 = threading.Thread(target = parking_ws.run_forever, args=())
-    thread3 = threading.Thread(target = pedestrian_ws.run_forever, args=())
-    thread4 = threading.Thread(target = environmental_ws.run_forever, args=())
+    traffic_thread = threading.Thread(target = traffic_ws.run_forever, args=())
+    parking_thread = threading.Thread(target = parking_ws.run_forever, args=())
+    pedestrian_thread = threading.Thread(target = pedestrian_ws.run_forever, args=())
+    environmental_thread = threading.Thread(target = environmental_ws.run_forever, args=())
 
-    thread1.start()
-    thread2.start()
-    thread3.start()
-    thread4.start()
+    traffic_thread.start()
+    parking_thread.start()
+    pedestrian_thread.start()
+    environmental_thread.start()
