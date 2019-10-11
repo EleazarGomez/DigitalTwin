@@ -38,7 +38,6 @@ def get_auth_token():
 def on_message(ws, message):
     jsonMessage = json.loads(message)
     evt = jsonMessage["eventType"]
-    print(" ", evt, end = " ")
 
     # Construct query strings
     if (evt == "TFEVT"):
@@ -64,6 +63,10 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["counter_direction_vehicleCount"],
                                            jsonMessage["measures"]["counter_direction_speed"],
                                            jsonMessage["measures"]["counter_direction"])
+
+        with open('../data/TFEVT.txt', 'a+') as f:
+            json.dump(jsonMessage, f)
+            f.write('\n')
     elif (evt == "PKIN"):
         queryTemplate = """INSERT INTO pkin(timestamp,
                                             assetUid,
@@ -83,6 +86,9 @@ def on_message(ws, message):
                                            jsonMessage["properties"]["objectUid"],
                                            jsonMessage["properties"]["imageAssetUid"],
                                            jsonMessage["properties"]["geoCoordinates"])
+        with open('../data/PKIN.txt', 'a+') as f:
+            json.dump(jsonMessage, f)
+            f.write('\n')
     elif (evt == "PKOUT"):
         queryTemplate = """INSERT INTO pkout(timestamp,
                                              assetUid,
@@ -102,6 +108,9 @@ def on_message(ws, message):
                                            jsonMessage["properties"]["objectUid"],
                                            jsonMessage["properties"]["imageAssetUid"],
                                            jsonMessage["properties"]["geoCoordinates"]) # occasionally complains about this line
+        with open('../data/PKOUT.txt', 'a+') as f:
+            json.dump(jsonMessage, f)
+            f.write('\n')
     elif (evt == "PEDEVT"):
         queryTemplate = """INSERT INTO pedevt(timestamp,
                                               assetUid,
@@ -123,6 +132,10 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["counter_direction_pedestrianCount"],
                                            jsonMessage["measures"]["counter_direction_speed"],
                                            jsonMessage["measures"]["counter_direction"])
+        peds = jsonMessage["measures"]["pedestrianCount"] + jsonMessage["measures"]["counter_direction_pedestrianCount"]
+        with open('../data/PEDEVT.txt', 'a+') as f:
+            json.dump(jsonMessage, f)
+            f.write('\n')
     elif (evt == "PRESSURE"):
         queryTemplate = """INSERT INTO pressure(timestamp,
                                                 assetUid,
@@ -142,6 +155,9 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["median"],
                                            jsonMessage["measures"]["max"],
                                            jsonMessage["measures"]["mean"])
+        with open('../data/PRESSURE.txt', 'a+') as f:
+            json.dump(jsonMessage, f)
+            f.write('\n')
     elif (evt == "TEMPERATURE"):
         queryTemplate = """INSERT INTO temperature(timestamp,
                                                    assetUid,
@@ -161,6 +177,9 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["median"],
                                            jsonMessage["measures"]["max"],
                                            jsonMessage["measures"]["mean"])
+        with open('../data/TEMPERATURE.txt', 'a+') as f:
+            json.dump(jsonMessage, f)
+            f.write('\n')
     elif (evt == "HUMIDITY"):
         queryTemplate = """INSERT INTO humidity(timestamp,
                                                 assetUid,
@@ -180,6 +199,9 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["median"],
                                            jsonMessage["measures"]["max"],
                                            jsonMessage["measures"]["mean"])
+        with open('../data/HUMIDITY.txt', 'a+') as f:
+            json.dump(jsonMessage, f)
+            f.write('\n')
     elif (evt == "ORIENTATION"):
         queryTemplate = """INSERT INTO orientation(timestamp,
                                                    assetUid,
@@ -215,10 +237,13 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["medianZ"],
                                            jsonMessage["measures"]["maxZ"],
                                            jsonMessage["measures"]["meanZ"])
+        with open('../data/ORIENTATION.txt', 'a+') as f:
+            json.dump(jsonMessage, f)
+            f.write('\n')
 
     # Execute query and commit to database
-    myCursor.execute(queryString)
-    connection.commit()
+    #myCursor.execute(queryString)
+    #connection.commit()
 
 def on_error(ws, ex):
     print(ex)
@@ -299,7 +324,8 @@ if __name__ == '__main__':
     pedestrian_thread = threading.Thread(target = pedestrian_ws.run_forever, args=())
     environmental_thread = threading.Thread(target = environmental_ws.run_forever, args=())
 
-    traffic_thread.start()
+    # Traffic is commented out for now because of the amount of data it produces
+    #traffic_thread.start()
     parking_thread.start()
     pedestrian_thread.start()
     environmental_thread.start()
