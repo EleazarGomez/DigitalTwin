@@ -18,11 +18,11 @@ import pymysql
 
 # DATABASE VARIABLES (update for your database
 #                        -- must update query strings as well, table names)
-connection = pymysql.connect(host="localhost",
-                             user="root",
-                             passwd="password",
-                             db="cityiq_events")
-myCursor = connection.cursor()
+##connection = pymysql.connect(host="localhost",
+##                             user="root",
+##                             passwd="password",
+##                             db="cityiq_events")
+##myCursor = connection.cursor()
 
 def get_auth_token():
     uaa_uri = 'https://auth.aa.cityiq.io'
