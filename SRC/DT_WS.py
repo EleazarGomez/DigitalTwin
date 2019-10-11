@@ -64,7 +64,7 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["counter_direction_speed"],
                                            jsonMessage["measures"]["counter_direction"])
 
-        with open('../data/TFEVT.txt', 'a+') as f:
+        with open('../../data/TFEVT.txt', 'a+') as f:
             json.dump(jsonMessage, f)
             f.write('\n')
     elif (evt == "PKIN"):
@@ -86,7 +86,7 @@ def on_message(ws, message):
                                            jsonMessage["properties"]["objectUid"],
                                            jsonMessage["properties"]["imageAssetUid"],
                                            jsonMessage["properties"]["geoCoordinates"])
-        with open('../data/PKIN.txt', 'a+') as f:
+        with open('../../data/PKIN.txt', 'a+') as f:
             json.dump(jsonMessage, f)
             f.write('\n')
     elif (evt == "PKOUT"):
@@ -108,7 +108,7 @@ def on_message(ws, message):
                                            jsonMessage["properties"]["objectUid"],
                                            jsonMessage["properties"]["imageAssetUid"],
                                            jsonMessage["properties"]["geoCoordinates"]) # occasionally complains about this line
-        with open('../data/PKOUT.txt', 'a+') as f:
+        with open('../../data/PKOUT.txt', 'a+') as f:
             json.dump(jsonMessage, f)
             f.write('\n')
     elif (evt == "PEDEVT"):
@@ -133,7 +133,7 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["counter_direction_speed"],
                                            jsonMessage["measures"]["counter_direction"])
         peds = jsonMessage["measures"]["pedestrianCount"] + jsonMessage["measures"]["counter_direction_pedestrianCount"]
-        with open('../data/PEDEVT.txt', 'a+') as f:
+        with open('../../data/PEDEVT.txt', 'a+') as f:
             json.dump(jsonMessage, f)
             f.write('\n')
     elif (evt == "PRESSURE"):
@@ -155,7 +155,7 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["median"],
                                            jsonMessage["measures"]["max"],
                                            jsonMessage["measures"]["mean"])
-        with open('../data/PRESSURE.txt', 'a+') as f:
+        with open('../../data/PRESSURE.txt', 'a+') as f:
             json.dump(jsonMessage, f)
             f.write('\n')
     elif (evt == "TEMPERATURE"):
@@ -177,7 +177,7 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["median"],
                                            jsonMessage["measures"]["max"],
                                            jsonMessage["measures"]["mean"])
-        with open('../data/TEMPERATURE.txt', 'a+') as f:
+        with open('../../data/TEMPERATURE.txt', 'a+') as f:
             json.dump(jsonMessage, f)
             f.write('\n')
     elif (evt == "HUMIDITY"):
@@ -199,7 +199,7 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["median"],
                                            jsonMessage["measures"]["max"],
                                            jsonMessage["measures"]["mean"])
-        with open('../data/HUMIDITY.txt', 'a+') as f:
+        with open('../../data/HUMIDITY.txt', 'a+') as f:
             json.dump(jsonMessage, f)
             f.write('\n')
     elif (evt == "ORIENTATION"):
@@ -237,7 +237,7 @@ def on_message(ws, message):
                                            jsonMessage["measures"]["medianZ"],
                                            jsonMessage["measures"]["maxZ"],
                                            jsonMessage["measures"]["meanZ"])
-        with open('../data/ORIENTATION.txt', 'a+') as f:
+        with open('../../data/ORIENTATION.txt', 'a+') as f:
             json.dump(jsonMessage, f)
             f.write('\n')
 
