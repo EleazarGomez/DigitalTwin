@@ -38,6 +38,7 @@ def get_auth_token():
 def on_message(ws, message):
     jsonMessage = json.loads(message)
     evt = jsonMessage["eventType"]
+    print(jsonMessage["timestamp"])
 
     # Construct query strings
     if (evt == "TFEVT"):
@@ -324,8 +325,8 @@ if __name__ == '__main__':
     pedestrian_thread = threading.Thread(target = pedestrian_ws.run_forever, args=())
     environmental_thread = threading.Thread(target = environmental_ws.run_forever, args=())
 
-    # Traffic is commented out for now because of the amount of data it produces
+    # Traffic and environmental are commented out for now because of the amount of data they produce
     #traffic_thread.start()
     parking_thread.start()
     pedestrian_thread.start()
-    environmental_thread.start()
+    #environmental_thread.start()
