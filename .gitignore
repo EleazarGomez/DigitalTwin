@@ -105,3 +105,4 @@ venv.bak/
 
 # APP SPECIFIC
 data/
+nohup.out
