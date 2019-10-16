@@ -39,7 +39,6 @@ def on_message(ws, message):
     jsonMessage = json.loads(message)
 
     evt = jsonMessage["eventType"]
-    #print(jsonMessage["assetUid"])
 
     # Construct query strings
     if (evt == "TFEVT"):
@@ -256,19 +255,19 @@ def on_close(ws):
 
 def traffic_on_open(ws):
     print('### connected ###')
-    ws.send('{"bbox":"32.714858:-117.158431,32.714562:-117.157248","eventTypes":["TFEVT"]}')
+    ws.send('{"bbox":"-90:-180,90:180,"eventTypes":["TFEVT"]}')
 
 def parking_on_open(ws):
     print('### connected ###')
-    ws.send('{"bbox":"32.714858:-117.158431,32.714562:-117.157248","eventTypes":["PKIN","PKOUT"]}')
+    ws.send('{"bbox":"-90:-180,90:180","eventTypes":["PKIN","PKOUT"]}')
 
 def pedestrian_on_open(ws):
     print('### connected ###')
-    ws.send('{"bbox":"32.714858:-117.158431,32.714562:-117.157248","eventTypes":["PEDEVT"]}')
+    ws.send('{"bbox":"-90:-180,90:180","eventTypes":["PEDEVT"]}')
 
 def environmental_on_open(ws):
     print('### connected ###')
-    ws.send('{"bbox":"32.714858:-117.158431,32.714562:-117.157248","eventTypes":["PRESSURE","TEMPERATURE","ORIENTATION","HUMIDITY"]}')
+    ws.send('{"bbox":"-90:-180,90:180","eventTypes":["PRESSURE","TEMPERATURE","ORIENTATION","HUMIDITY"]}')
 
 def headers(zone):
     token = get_auth_token()
