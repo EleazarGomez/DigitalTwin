@@ -249,13 +249,29 @@ def on_message(ws, message):
 def on_error(ws, ex):
     print(ex)
 
-def on_close(ws):
+def traffic_on_close(ws):
     print('### closed ###')
     #connection.close()
+    run_thread("traffic")
+
+def parking_on_close(ws):
+    print('### closed ###')
+    #connection.close()
+    run_thread("parking")
+
+def pedestrian_on_close(ws):
+    print('### closed ###')
+    #connection.close()
+    run_thread("pedestrian")
+
+def environmental_on_close(ws):
+    print('### closed ###')
+    #connection.close()
+    run_thread("environment")
 
 def traffic_on_open(ws):
     print('### connected ###')
-    ws.send('{"bbox":"-90:-180,90:180,"eventTypes":["TFEVT"]}')
+    ws.send('{"bbox":"-90:-180,90:180","eventTypes":["TFEVT"]}')
 
 def parking_on_open(ws):
     print('### connected ###')
@@ -280,7 +296,8 @@ def headers(zone):
 
     return headers
 
-if __name__ == '__main__':
+
+def run_thread(choice):
     websocket.enableTrace(True)
     
     traffic_zone = 'SD-IE-TRAFFIC'
@@ -295,28 +312,28 @@ if __name__ == '__main__':
                                         header = headers(traffic_zone),
                                         on_message = on_message,
                                         on_error = on_error,
-                                        on_close = on_close)
+                                        on_close = traffic_on_close)
     traffic_ws.on_open = traffic_on_open
 
     parking_ws = websocket.WebSocketApp(cityiq,
                                         header = headers(parking_zone),
                                         on_message = on_message,
                                         on_error = on_error,
-                                        on_close = on_close)
+                                        on_close = parking_on_close)
     parking_ws.on_open = parking_on_open
 
     pedestrian_ws = websocket.WebSocketApp(cityiq,
                                            header = headers(pedestrian_zone),
                                            on_message = on_message,
                                            on_error = on_error,
-                                           on_close = on_close)
+                                           on_close = pedestrian_on_close)
     pedestrian_ws.on_open = pedestrian_on_open
 
     environmental_ws = websocket.WebSocketApp(cityiq,
                                               header = headers(environmental_zone),
                                               on_message = on_message,
                                               on_error = on_error,
-                                              on_close = on_close)
+                                              on_close = environmental_on_close)
     environmental_ws.on_open = environmental_on_open
 
     # Creating Threads
@@ -326,7 +343,22 @@ if __name__ == '__main__':
     environmental_thread = threading.Thread(target = environmental_ws.run_forever, args=())
 
     # Traffic and environmental are commented out for now because of the amount of data they produce
-    #traffic_thread.start()
-    parking_thread.start()
-    pedestrian_thread.start()
-    #environmental_thread.start()
+    if (choice == "traffic"):
+        traffic_thread.start()
+    elif (choice == "parking"):
+        parking_thread.start()
+    elif (choice == "pedestrian"):
+        pedestrian_thread.start()
+    elif (choice == "environment"):
+        environmental_thread.start()
+    elif (choice == "pedpark"):
+        parking_thread.start()
+        pedestrian_thread.start()
+    elif (choice == "all"):
+        traffic_thread.start()
+        parking_thread.start()
+        pedestrian_thread.start()
+        environmental_thread.start()
+
+if __name__ == '__main__':
+    run_thread("pedpark")
